@@ -122,6 +122,8 @@ def check_allowed_python_version():
             if found:
                 major = int(found.group(1))
                 minor = int(found.group(2))
+                if sys.platform == "win32" and (major, minor) > (3, 4):
+                    continue
                 supported.append( (major, minor) )
     this_py = sys.version_info[:2]
     if this_py not in supported:
@@ -1005,6 +1007,10 @@ setup(
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        # Below Python are not supported and will not build on Windows
+        # https://github.com/pyside/PySide/issues/132
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Topic :: Database',
         'Topic :: Software Development',
         'Topic :: Software Development :: Code Generators',
